@@ -34,8 +34,8 @@ const styles = `
 }
 
 .rotating-text-main {
-  padding: 0.125rem 0.5rem;
-  background-color: #5227ff;
+//   padding: 0.125rem 0.5rem;
+  background-color: #5026F8;
   color: #fff;
   overflow: hidden;
   display: flex;
@@ -100,7 +100,7 @@ const styles = `
   }
 
   .rotating-text-main {
-    padding: 0.25rem 0.5rem;
+    // padding: 0.25rem 0.5rem;
   }
 
   .rotating-text-split {
@@ -116,7 +116,7 @@ const styles = `
   }
 
   .rotating-text-main {
-    padding: 0.5rem 0.75rem;
+    // padding: 0.5rem 0.75rem;
   }
 }
 
@@ -176,7 +176,7 @@ const RotatingText = forwardRef<RotatingTextHandle, RotatingTextProps>((props, r
         exit = { y: "-120%", opacity: 0 },
         animatePresenceMode = "wait",
         animatePresenceInitial = false,
-        rotationInterval = 2000,
+        rotationInterval = 10000,
         staggerDuration = 0,
         staggerFrom = "first",
         loop = true,
@@ -323,7 +323,11 @@ const RotatingText = forwardRef<RotatingTextHandle, RotatingTextProps>((props, r
                                 .slice(0, wordIndex)
                                 .reduce((sum: number, word: { characters: string[] }) => sum + word.characters.length, 0)
                             return (
-                                <span key={wordIndex} className={cn("text-rotate-word", splitLevelClassName)}>
+                                <span
+                                    key={wordIndex}
+                                    className={cn("text-rotate-word", splitLevelClassName)}
+                                    style={{ padding: "0.3rem 1rem 0.6rem 1rem" }}
+                                >
                                     {wordObj.characters.map((char, charIndex) => (
                                         <motion.span
                                             key={charIndex}
@@ -357,12 +361,12 @@ RotatingText.displayName = "RotatingText"
 
 // Demo Component
 export default function RotatingTextDemo() {
-    const words = ["Work.", "Delight", "Inspire"]
+    const words = ["Delight...", "Inspire...", "Work."]
 
     return (
         <>
             <style dangerouslySetInnerHTML={{ __html: styles }} />
-            <Box position="relative" minH={400} maxH={400} overflow="hidden" justifyContent="start" w={"700px"}>
+            <Box position="relative" minH={400} maxH={400} overflow="hidden" justifyContent="start" maxW={"800px"}>
                 <div className="rotating-text-demo">
                     <LayoutGroup>
                         <motion.p className="rotating-text-ptag" layout>
@@ -373,13 +377,13 @@ export default function RotatingTextDemo() {
                                 texts={words}
                                 mainClassName="rotating-text-main"
                                 staggerFrom={"last"}
-                                initial={{ y: "100%" }}
+                                initial={{ y: "200%" }}
                                 animate={{ y: 0 }}
-                                exit={{ y: "-120%" }}
-                                staggerDuration={0.025}
+                                exit={{ y: "-200%" }}
+                                staggerDuration={0.03}
                                 splitLevelClassName="rotating-text-split"
-                                transition={{ type: "spring", damping: 30, stiffness: 400 }}
-                                rotationInterval={2000}
+                                transition={{ type: "spring", damping: 27, stiffness: 800 }}
+                                rotationInterval={4000}
                             />
                         </motion.p>
                     </LayoutGroup>

@@ -4,7 +4,7 @@ export const customConfig = createSystem(defaultConfig, {
     theme: {
         tokens: {
             colors: {
-                blue: { value: "blue" },
+                blue: { value: "#028DB4" },
                 red: { value: "red" },
                 yellow: { value: "yellow" },
             },
@@ -12,7 +12,7 @@ export const customConfig = createSystem(defaultConfig, {
         semanticTokens: {
             colors: {
                 pageBackground: {
-                    value: { _light: "white", _dark: "black" },
+                    value: { _light: "white", _dark: "#060010" },
                 },
             },
         },
