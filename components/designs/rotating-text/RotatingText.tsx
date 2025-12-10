@@ -5,7 +5,7 @@ import { motion, AnimatePresence, LayoutGroup } from "motion/react"
 import "./RotatingText.css"
 
 export default function RotatingText() {
-    const texts = ["Delight...", "Click...", "Inspire...", "Work."]
+    const texts = ["Delight...", "Enhance...", "Inspire...", "Work."]
     const [currentTextIndex, setCurrentTextIndex] = useState(0)
     const staggerDuration = 0.03
     const rotationInterval = 3000

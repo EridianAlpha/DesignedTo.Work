@@ -140,7 +140,8 @@ export const customConfig = defineConfig({
     globalCss: {
         "html, body": {
             backgroundColor: "{colors.pageBackground}",
-            height: "fit-content",
+            height: "100%",
+            minHeight: "100dvh",
             width: "100vw",
             overflowX: "hidden",
             fontFamily: "fonts.body",
