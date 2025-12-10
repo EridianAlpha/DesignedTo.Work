@@ -26,6 +26,17 @@
     background-color: rgb(59 130 246);
     position: relative;
     min-width: 0;
+    box-shadow:
+        4px 4px 6px -1px rgba(0, 0, 0, 0.2),
+        2px 2px 4px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode shadow - darker shadow with subtle blue glow */
+.dark .rotating-text-container {
+    box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.5),
+        0 2px 4px -1px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(59, 130, 246, 0.7);
 }
 
 .rotating-text-inner {
