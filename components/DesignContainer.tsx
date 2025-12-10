@@ -13,6 +13,10 @@ export default function DesignContainer({ children }: { children: React.ReactNod
             borderRadius={"24px"}
             p={4}
             bg="green.800"
+            maxW={"800px"}
+            w={"800px"}
+            maxH={"400px"}
+            h={"400px"}
         >
             {children}
         </VStack>

@@ -1,15 +1,16 @@
 "use client"
 
 import { VStack } from "@chakra-ui/react"
-import RotatingText from "./designs/RotatingText"
 import DesignContainer from "./DesignContainer"
+import RotatingText from "./designs/rotating-text/RotatingText"
 
 export default function PageContainer() {
     return (
         <VStack gap="8" justifyContent={"center"} alignItems={"center"} py={10}>
             {/* <RotatingText /> */}
             <DesignContainer>
-                <RotatingText />
+                {/* <RotatingText /> */}
+                <RotatingText text="Hello world" />
             </DesignContainer>
         </VStack>
     )
