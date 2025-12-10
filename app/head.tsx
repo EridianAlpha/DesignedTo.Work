@@ -12,6 +12,11 @@ export default function Head() {
             <meta name="theme-color" content={"pageBackground._light"} media="(prefers-color-scheme: light)" />
             <meta name="theme-color" content={"pageBackground._dark"} media="(prefers-color-scheme: dark)" />
 
+            {/* Fonts */}
+            <link rel="preconnect" href="https://fonts.googleapis.com" />
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+            <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700;900&display=swap" rel="stylesheet" />
+
             {/* Favicon & Icons */}
             <link rel="icon" href="/api/favicon" type="image/svg+xml" />
 

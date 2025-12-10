@@ -1,5 +1,4 @@
-import { Box, ClientOnly, Skeleton, VStack } from "@chakra-ui/react"
-import { ColorModeToggle } from "../components/color-mode/ColorModeToggle"
+import { Box, VStack } from "@chakra-ui/react"
 
 import Footer from "../components/Footer"
 import PageContainer from "../components/PageContainer"

@@ -12,7 +12,7 @@ export default function Footer() {
             <HStack fontWeight={"bold"} fontSize={"14px"} textAlign={"center"} gap={1}>
                 <Text color={"textColorMuted"}>Built with ❤️ by </Text>
                 <Link href={"https://eridian.xyz"} target="_blank">
-                    <HStack textDecoration={"underline"} color={"blue.500"} gap={"2px"}>
+                    <HStack color={"blue.500"} gap={"2px"}>
                         <Text>Eridian</Text>
                     </HStack>
                 </Link>

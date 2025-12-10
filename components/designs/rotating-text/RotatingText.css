@@ -3,13 +3,12 @@
     align-items: center;
     gap: 0.7em;
     justify-content: flex-start;
-    width: 400px;
+    width: 450px;
     cursor: default;
-    /* background-color: red; */
 }
 
 .rotating-text-prefix {
-    font-weight: 900;
+    font-weight: 700;
     font-size: 2.25rem;
     line-height: 2.5rem;
 }
@@ -32,12 +31,12 @@
 }
 
 /* Dark mode shadow - darker shadow with subtle blue glow */
-.dark .rotating-text-container {
+/* .dark .rotating-text-container {
     box-shadow:
         0 4px 6px -1px rgba(0, 0, 0, 0.5),
         0 2px 4px -1px rgba(0, 0, 0, 0.5),
         0 0 20px rgba(59, 130, 246, 0.7);
-}
+} */
 
 .rotating-text-inner {
     display: inline-flex;
