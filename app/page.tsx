@@ -1,9 +1,8 @@
-import { Box, Checkbox, ClientOnly, HStack, Heading, Progress, RadioGroup, Skeleton, VStack } from "@chakra-ui/react"
-import Image from "next/image"
+import { Box, ClientOnly, Skeleton, VStack } from "@chakra-ui/react"
 import { ColorModeToggle } from "../components/color-mode/ColorModeToggle"
 
 import Footer from "../components/Footer"
-import RotatingText from "../components/RotatingText"
+import RotatingText from "../components/designs/RotatingText"
 
 export default async function Page() {
     return (
@@ -13,8 +12,8 @@ export default async function Page() {
                     <ColorModeToggle />
                 </ClientOnly>
             </Box>
-            <VStack gap="8" justifyContent={"center"} alignItems={"center"} flexGrow={1}>
-                <RotatingText />
+            <VStack gap="8" justifyContent={"center"} alignItems={"center"} flexGrow={1} bg={"green"} w={"100%"} h={"100%"}>
+                {/* <RotatingText /> */}
             </VStack>
             <Box flexGrow={1} />
             <Footer />
