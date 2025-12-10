@@ -36,16 +36,16 @@ export default function RotatingText() {
     return (
         <LayoutGroup>
             <div className="rotating-text-wrapper">
-                <span className="rotating-text-prefix">Designed To </span>
+                <span>Designed To </span>
                 <motion.div
                     className="rotating-text-container"
                     aria-label={`Designed To ${texts[currentTextIndex]}`}
-                    layout
                     transition={{
                         type: "spring",
-                        damping: 10,
+                        damping: 20,
                         stiffness: 400,
                     }}
+                    layout
                 >
                     <AnimatePresence mode="wait" initial={false}>
                         <motion.span key={currentTextIndex} className="rotating-text-inner" layout>

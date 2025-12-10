@@ -7,7 +7,7 @@ import RotatingTextOld from "./designs/rotating-text/RotatingTextOLD"
 
 export default function PageContainer() {
     return (
-        <VStack gap="8" justifyContent={"center"} alignItems={"center"} py={10}>
+        <VStack gap="8" justifyContent={"center"} alignItems={"center"} pt={20}>
             <RotatingText />
             {/* <DesignContainer> */}
             {/* <RotatingText /> */}
