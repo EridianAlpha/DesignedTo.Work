@@ -4,7 +4,9 @@ import { useMemo } from "react"
 import { motion } from "motion/react"
 import "./RotatingText.css"
 
-export default function RotatingText({ text }: { text: string }) {
+export default function RotatingText() {
+    const text = "Inspire..."
+
     const characters = useMemo(() => {
         // Split text into characters, preserving spaces
         if (typeof Intl !== "undefined" && Intl.Segmenter) {
@@ -15,40 +17,43 @@ export default function RotatingText({ text }: { text: string }) {
     }, [text])
 
     return (
-        <motion.div
-            className={`inline-flex flex-wrap overflow-hidden h-[100px] bg-blue-500`}
-            initial="hidden"
-            animate="visible"
-            variants={{
-                visible: {
-                    transition: {
-                        staggerChildren: 0.1,
-                    },
-                },
-            }}
-        >
-            <span className="sr-only">{text}</span>
-            {characters.map((char, index) => (
-                <motion.span
-                    key={index}
-                    className="inline-block overflow-hidden"
-                    variants={{
-                        hidden: { y: "200%", opacity: 0 },
-                        visible: {
-                            y: 0,
-                            opacity: 1,
-                            transition: {
-                                type: "spring",
-                                damping: 27,
-                                stiffness: 800,
-                            },
+        <div className="rotating-text-wrapper">
+            <span className="rotating-text-prefix">Designed To </span>
+            <motion.div
+                className="rotating-text-container"
+                aria-label={`Designed To ${text}`}
+                initial="hidden"
+                animate="visible"
+                variants={{
+                    visible: {
+                        transition: {
+                            staggerChildren: 0.1,
                         },
-                    }}
-                    aria-hidden="true"
-                >
-                    {char === " " ? "\u00A0" : char}
-                </motion.span>
-            ))}
-        </motion.div>
+                    },
+                }}
+            >
+                {characters.map((char, index) => (
+                    <motion.span
+                        key={index}
+                        className="rotating-text-character"
+                        variants={{
+                            hidden: { y: "200%", opacity: 0 },
+                            visible: {
+                                y: 0,
+                                opacity: 1,
+                                transition: {
+                                    type: "spring",
+                                    damping: 27,
+                                    stiffness: 800,
+                                },
+                            },
+                        }}
+                        aria-hidden="true"
+                    >
+                        {char === " " ? "\u00A0" : char}
+                    </motion.span>
+                ))}
+            </motion.div>
+        </div>
     )
 }
