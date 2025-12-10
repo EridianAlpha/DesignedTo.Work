@@ -383,7 +383,7 @@ export default function RotatingTextDemo() {
                                 staggerDuration={0.03}
                                 splitLevelClassName="rotating-text-split"
                                 transition={{ type: "spring", damping: 27, stiffness: 800 }}
-                                rotationInterval={4000}
+                                rotationInterval={2000}
                             />
                         </motion.p>
                     </LayoutGroup>

@@ -2,6 +2,10 @@
     display: flex;
     align-items: center;
     gap: 0.7em;
+    justify-content: flex-start;
+    width: 400px;
+    cursor: default;
+    /* background-color: red; */
 }
 
 .rotating-text-prefix {
@@ -12,7 +16,7 @@
 
 .rotating-text-container {
     display: inline-flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
     overflow: hidden;
     height: 50px;
@@ -20,6 +24,15 @@
     padding-right: 10px;
     border-radius: 12px;
     background-color: rgb(59 130 246);
+    position: relative;
+    min-width: 0;
+}
+
+.rotating-text-inner {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    white-space: nowrap;
 }
 
 .rotating-text-character {

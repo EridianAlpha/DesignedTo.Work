@@ -8,11 +8,10 @@ export default function DesignContainer({ children }: { children: React.ReactNod
             gap="8"
             justifyContent={"center"}
             alignItems={"center"}
-            border={"2px solid"}
+            border={"3px solid"}
             borderColor={"blue.500"}
             borderRadius={"24px"}
             p={4}
-            bg="green.800"
             maxW={"800px"}
             w={"800px"}
             maxH={"400px"}
