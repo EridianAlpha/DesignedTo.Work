@@ -11,17 +11,17 @@ export const customConfig = defineConfig({
         tokens: {
             colors: {
                 blue: {
-                    50: { value: "#F0FBFC" },
-                    100: { value: "#DFF4F7" },
-                    200: { value: "#B2E5ED" },
-                    300: { value: "#87D3E0" },
-                    400: { value: "#3FB2CC" },
-                    500: { value: "#028DB4" },
-                    600: { value: "#027BA3" },
-                    700: { value: "#015D87" },
-                    800: { value: "#01466E" },
-                    900: { value: "#012F52" },
-                    950: { value: "#060010" },
+                    50: { value: "#F5FCFF" },
+                    100: { value: "#EBF8FF" },
+                    200: { value: "#CCEAFC" },
+                    300: { value: "#AFD9FA" },
+                    400: { value: "#74B4F7" },
+                    500: { value: "#3B82F6" },
+                    600: { value: "#306FDB" },
+                    700: { value: "#2153B8" },
+                    800: { value: "#153B94" },
+                    900: { value: "#0C286E" },
+                    950: { value: "#051647" },
                 },
                 red: {
                     50: { value: "#FFFAF2" },
@@ -108,7 +108,10 @@ export const customConfig = defineConfig({
 
                 // Background colors
                 pageBackground: {
-                    value: { _light: "{colors.blue.100}", _dark: "{colors.blue.950}" },
+                    value: {
+                        _light: "#f7f7ff",
+                        _dark: "#050016",
+                    },
                 },
                 pageBackgroundMuted: {
                     value: {

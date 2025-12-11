@@ -10,7 +10,6 @@ export default function PageContainer() {
             <RotatingText />
             <Box h={"30px"} />
             <DesignContainer>{/* <RotatingText /> */}</DesignContainer>
-            <DesignContainer>{/* <RotatingText /> */}</DesignContainer>
             <Box h={"20px"} />
         </VStack>
     )

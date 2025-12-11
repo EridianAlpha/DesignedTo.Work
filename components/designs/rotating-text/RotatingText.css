@@ -13,7 +13,7 @@
 
 @media (min-width: 640px) {
     .rotating-text-wrapper {
-        width: 450px;
+        width: 440px;
         justify-content: flex-start;
     }
 }
