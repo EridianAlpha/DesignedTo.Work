@@ -10,6 +10,8 @@ export default function Drag() {
     const boxRef = useRef<HTMLDivElement>(null)
     const containerRef = useRef<HTMLDivElement>(null)
 
+    const boxSize = 50
+
     const updatePosition = () => {
         if (boxRef.current && containerRef.current) {
             const boxRect = boxRef.current.getBoundingClientRect()
@@ -21,60 +23,81 @@ export default function Drag() {
             const containerCenterX = containerRect.left + containerRect.width / 2
             const containerCenterY = containerRect.top + containerRect.height / 2
 
+            if (isDragging) {
+                if (positionX > boxSize / 16 || positionX < -boxSize / 16) {
+                    setActiveDirection("x")
+                }
+                if (positionY > boxSize / 16 || positionY < -boxSize / 16) {
+                    setActiveDirection("y")
+                }
+            }
+
             setPositionX(boxCenterX - containerCenterX)
             setPositionY(boxCenterY - containerCenterY)
         }
     }
-
-    useEffect(() => {
-        updatePosition()
-    }, [])
 
     return (
         <div
             ref={containerRef}
             style={{
                 ...container,
-                cursor: activeDirection === "x" ? "col-resize" : activeDirection === "y" ? "row-resize" : activeDirection ? "grab" : "default",
+                cursor: isDragging
+                    ? positionX > boxSize / 16 || positionX < -boxSize / 16 || activeDirection === "x"
+                        ? "col-resize"
+                        : positionY > boxSize / 16 || positionY < -boxSize / 16 || activeDirection === "y"
+                          ? "row-resize"
+                          : "grabbing"
+                    : "default",
             }}
         >
-            <Line direction="x" activeDirection={activeDirection} />
-            <Line direction="y" activeDirection={activeDirection} />
+            <Line direction="x" isDragging={isDragging} activeDirection={activeDirection} />
+            <Line direction="y" isDragging={isDragging} activeDirection={activeDirection} />
             <motion.div
                 ref={boxRef}
                 drag
                 dragDirectionLock
                 onDirectionLock={(direction) => setActiveDirection(direction)}
-                onDragStart={() => setIsDragging(true)}
+                onDragStart={() => {
+                    setIsDragging(true)
+                    setActiveDirection(null)
+                    setPositionX(0)
+                    setPositionY(0)
+                }}
                 onDrag={() => {
                     updatePosition()
                 }}
                 onDragEnd={() => {
                     setActiveDirection(null)
                     setIsDragging(false)
+                    setPositionX(0)
+                    setPositionY(0)
                     updatePosition()
                 }}
-                dragConstraints={{ top: -25, right: -25, bottom: -25, left: -25 }}
+                dragConstraints={{ top: -boxSize / 2, right: -boxSize / 2, bottom: -boxSize / 2, left: -boxSize / 2 }}
                 dragTransition={{ bounceStiffness: 500, bounceDamping: 10 }}
                 dragElastic={0.2}
                 initial={{ x: "-50%", y: "-50%" }}
                 style={
                     {
-                        ...box,
+                        ...box(boxSize),
                         top: "50%",
                         left: "50%",
-                        cursor: activeDirection === "x" ? "col-resize" : activeDirection === "y" ? "row-resize" : "grab",
+                        cursor: isDragging ? (activeDirection === "x" ? "col-resize" : activeDirection === "y" ? "row-resize" : "grab") : "grab",
                         cornerShape: isDragging
-                            ? positionX > 0
+                            ? positionX > boxSize / 16
                                 ? "round bevel bevel round"
-                                : positionX < 0
+                                : positionX < -boxSize / 16
                                   ? "bevel round round bevel"
-                                  : positionY > 0
+                                  : positionY > boxSize / 16
                                     ? "round round bevel bevel"
-                                    : positionY < 0
+                                    : positionY < -boxSize / 16
                                       ? "bevel bevel round round"
                                       : undefined
                             : undefined,
+                        transitionProperty: "corner-shape",
+                        transitionDuration: "0.2s",
+                        transitionTimingFunction: "ease-in",
                     } as React.CSSProperties
                 }
             />
@@ -82,43 +105,53 @@ export default function Drag() {
     )
 }
 
-function Line({ direction, activeDirection }: { direction: "x" | "y"; activeDirection: "x" | "y" | null }) {
+function Line({ direction, isDragging, activeDirection }: { direction: "x" | "y"; isDragging: boolean; activeDirection: "x" | "y" | null }) {
+    const isX = direction === "x"
+
     return (
         <motion.div
             initial={false}
-            animate={{ opacity: activeDirection === direction ? 1 : 0.3 }}
-            transition={{ duration: 0.1 }}
+            animate={{ opacity: isDragging && activeDirection === direction ? 0.8 : 0.3 }}
+            transition={{ duration: 0.3, ease: "easeIn" }}
             style={{
                 ...line,
-                rotate: direction === "y" ? 90 : 0,
-                top: direction === "x" ? "50%" : undefined,
+                ...(isX
+                    ? {
+                          top: "50%",
+                          transform: "translateY(calc(-50% + 0px))",
+                          width: "100%",
+                          height: 0,
+                      }
+                    : {
+                          left: "calc(50% - 1px)",
+                          top: 0,
+                          transform: "translateX(-50%)",
+                          rotate: 0,
+                          width: 0,
+                          height: "200%",
+                      }),
             }}
         />
     )
 }
-
-/**
- * ==============   Styles   ================
- */
-
+// ===========   Styles   ===========
 const container: React.CSSProperties = {
     position: "relative",
     width: "100%",
     height: "100%",
 }
 
-const box: React.CSSProperties = {
-    width: 50,
-    height: 50,
-    border: "3px solid #f5f5f5",
+const box = (boxSize: number): React.CSSProperties => ({
+    width: boxSize,
+    height: boxSize,
+    border: "3px solid#029e03",
+    backgroundColor: "rgb(2, 158, 3, 0.3)",
     position: "absolute",
     cursor: "grab",
     borderRadius: "100%",
-}
+})
 
 const line: React.CSSProperties = {
-    width: "100%",
-    height: 1,
-    borderTop: "1px dashed #f5f5f5",
+    border: "1px dotted #3B82F6",
     position: "absolute",
 }
