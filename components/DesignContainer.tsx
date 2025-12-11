@@ -2,7 +2,7 @@
 
 import { VStack } from "@chakra-ui/react"
 
-export default function DesignContainer({ children }: { children: React.ReactNode }) {
+export default function DesignContainer({ children = null }: { children?: React.ReactNode | null }) {
     return (
         <VStack
             gap="8"
@@ -12,12 +12,12 @@ export default function DesignContainer({ children }: { children: React.ReactNod
             borderColor={"blue.500"}
             borderRadius={"24px"}
             p={4}
-            maxW={"800px"}
+            maxW={"95dvw"}
             w={"800px"}
             maxH={"400px"}
             h={"400px"}
         >
-            {children}
+            {children ?? null}
         </VStack>
     )
 }

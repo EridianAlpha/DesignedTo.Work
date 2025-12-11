@@ -20,6 +20,9 @@ export default function Head() {
             {/* Favicon & Icons */}
             <link rel="icon" href="/api/favicon" type="image/svg+xml" />
 
+            {/* Apple Touch Icon for iOS home screen (non-PWA bookmark) */}
+            {/* <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" /> */}
+
             {/* Title & Meta Description */}
             <title>{siteName}</title>
             <meta name="description" content={siteDescription} />
