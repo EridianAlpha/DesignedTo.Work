@@ -14,7 +14,6 @@ export default function PageContainer() {
                 <DragLockDirection />
             </DesignContainer>
             <DesignContainer>{/* <RotatingText /> */}</DesignContainer>
-
             <Box h={"20px"} />
         </VStack>
     )

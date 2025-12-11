@@ -1,12 +1,13 @@
 "use client"
 
 import * as motion from "motion/react-client"
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef } from "react"
 export default function Drag() {
     const [activeDirection, setActiveDirection] = useState<"x" | "y" | null>(null)
     const [positionX, setPositionX] = useState(0)
     const [positionY, setPositionY] = useState(0)
     const [isDragging, setIsDragging] = useState(false)
+    const [isPressed, setIsPressed] = useState(false)
     const boxRef = useRef<HTMLDivElement>(null)
     const containerRef = useRef<HTMLDivElement>(null)
 
@@ -51,15 +52,49 @@ export default function Drag() {
                     : "default",
             }}
         >
-            <Line direction="x" isDragging={isDragging} activeDirection={activeDirection} />
-            <Line direction="y" isDragging={isDragging} activeDirection={activeDirection} />
+            {[
+                {
+                    direction: "x" as const,
+                    style: {
+                        top: "50%",
+                        transform: "translateY(calc(-50% + 0px))",
+                        width: "100%",
+                        height: 0,
+                    },
+                },
+                {
+                    direction: "y" as const,
+                    style: {
+                        left: "calc(50% - 1px)",
+                        top: 0,
+                        transform: "translateX(-50%)",
+                        rotate: 0,
+                        width: 0,
+                        height: "200%",
+                    },
+                },
+            ].map(({ direction, style }) => (
+                <motion.div
+                    key={direction}
+                    initial={false}
+                    animate={{ opacity: isDragging && activeDirection === direction ? 1 : 0.3 }}
+                    transition={{ duration: 0.3, ease: "easeIn" }}
+                    style={{
+                        ...line,
+                        ...style,
+                    }}
+                />
+            ))}
             <motion.div
                 ref={boxRef}
                 drag
                 dragDirectionLock
                 onDirectionLock={(direction) => setActiveDirection(direction)}
+                onPointerDown={() => setIsPressed(true)}
+                onPointerUp={() => setIsPressed(false)}
                 onDragStart={() => {
                     setIsDragging(true)
+                    setIsPressed(false)
                     setActiveDirection(null)
                     setPositionX(0)
                     setPositionY(0)
@@ -68,8 +103,9 @@ export default function Drag() {
                     updatePosition()
                 }}
                 onDragEnd={() => {
-                    setActiveDirection(null)
                     setIsDragging(false)
+                    setIsPressed(false)
+                    setActiveDirection(null)
                     setPositionX(0)
                     setPositionY(0)
                     updatePosition()
@@ -83,7 +119,16 @@ export default function Drag() {
                         ...box(boxSize),
                         top: "50%",
                         left: "50%",
-                        cursor: isDragging ? (activeDirection === "x" ? "col-resize" : activeDirection === "y" ? "row-resize" : "grab") : "grab",
+                        cursor:
+                            isPressed && !isDragging
+                                ? "grabbing"
+                                : isDragging
+                                  ? activeDirection === "x"
+                                      ? "col-resize"
+                                      : activeDirection === "y"
+                                        ? "row-resize"
+                                        : "grab"
+                                  : "grab",
                         cornerShape: isDragging
                             ? positionX > boxSize / 16
                                 ? "round bevel bevel round"
@@ -105,35 +150,6 @@ export default function Drag() {
     )
 }
 
-function Line({ direction, isDragging, activeDirection }: { direction: "x" | "y"; isDragging: boolean; activeDirection: "x" | "y" | null }) {
-    const isX = direction === "x"
-
-    return (
-        <motion.div
-            initial={false}
-            animate={{ opacity: isDragging && activeDirection === direction ? 0.8 : 0.3 }}
-            transition={{ duration: 0.3, ease: "easeIn" }}
-            style={{
-                ...line,
-                ...(isX
-                    ? {
-                          top: "50%",
-                          transform: "translateY(calc(-50% + 0px))",
-                          width: "100%",
-                          height: 0,
-                      }
-                    : {
-                          left: "calc(50% - 1px)",
-                          top: 0,
-                          transform: "translateX(-50%)",
-                          rotate: 0,
-                          width: 0,
-                          height: "200%",
-                      }),
-            }}
-        />
-    )
-}
 // ===========   Styles   ===========
 const container: React.CSSProperties = {
     position: "relative",
