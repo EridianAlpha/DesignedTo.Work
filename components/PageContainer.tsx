@@ -11,13 +11,13 @@ export default function PageContainer() {
         <VStack gap="50px" justifyContent={"center"} alignItems={"center"} pt={20}>
             <RotatingText />
             <Box h={"30px"} />
-            <DesignContainer theme="dark" sourceLink={"https://codepen.io/jh3y/pen/LYJMPBL"}>
+            <DesignContainer title={"Sparkle Button"} theme="dark" sourceLink={"https://codepen.io/jh3y/pen/LYJMPBL"}>
                 <SparkleButton />
             </DesignContainer>
-            <DesignContainer sourceLink={"https://motion.dev/tutorials/react-drag"}>
+            <DesignContainer title={"Drag Lock Direction"} sourceLink={"https://motion.dev/tutorials/react-drag"}>
                 <DragLockDirection />
             </DesignContainer>
-            <DesignContainer sourceLink={"https://www.reactbits.dev/text-animations/rotating-text"}>
+            <DesignContainer title={"Rotating Text"} sourceLink={"https://www.reactbits.dev/text-animations/rotating-text"}>
                 <RotatingText />
             </DesignContainer>
             <Box h={"20px"} />

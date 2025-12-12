@@ -12,10 +12,12 @@ import { customConfig } from "../styles/theme"
 
 export default function DesignContainer({
     theme,
+    title,
     sourceLink,
     children = null,
 }: {
     theme?: "dark" | "light"
+    title?: string
     sourceLink?: string
     children?: React.ReactNode | null
 }) {
@@ -58,6 +60,30 @@ export default function DesignContainer({
                 >
                     {children ?? null}
                 </VStack>
+                <Box
+                    position={"absolute"}
+                    bg={"pageBackground"}
+                    h={"30px"}
+                    top={"3px"}
+                    left={"3px"}
+                    transformOrigin={"center"}
+                    display={"flex"}
+                    alignItems={"center"}
+                    justifyContent={"center"}
+                    borderTopLeftRadius={"21px"}
+                    borderBottomRightRadius={"12px"}
+                    borderBottom={"3px solid"}
+                    borderRight={"3px solid"}
+                    borderColor={"blue.500"}
+                    pl={0}
+                    pr={2}
+                    zIndex={2}
+                    cursor="default"
+                >
+                    <Text whiteSpace={"nowrap"} textAlign={"start"} fontWeight={"bold"} w={"100%"} pl={4} pr={1}>
+                        {title}
+                    </Text>
+                </Box>
                 <Button
                     position={"absolute"}
                     bg={"blue.500"}
@@ -76,6 +102,7 @@ export default function DesignContainer({
                     pr={2}
                     transition={"transform 0.2s ease-in"}
                     _hover={{ transform: "translateY(-2px)" }}
+                    zIndex={2}
                 >
                     <Text whiteSpace={"nowrap"} textAlign={"center"} fontWeight={"bold"} color={pageBackground._light}>
                         <FontAwesomeIcon icon={faChevronRight} size="sm" />
@@ -101,6 +128,7 @@ export default function DesignContainer({
                         pr={0}
                         transition={"transform 0.2s ease-in"}
                         _hover={{ transform: "translateY(-2px)" }}
+                        zIndex={2}
                     >
                         <Text whiteSpace={"nowrap"} textAlign={"center"} fontWeight={"bold"} color={pageBackground._light}>
                             Source
