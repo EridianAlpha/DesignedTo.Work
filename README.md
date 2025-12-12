@@ -1,6 +1,6 @@
-# ChakraUI V3 & Next.js Template
+# DesignedTo.Work
 
-This is a template for ChakraUI V3 & Next.js projects.
+A design portfolio of React components.
 
 ## Installation
 
