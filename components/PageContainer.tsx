@@ -17,7 +17,11 @@ export default function PageContainer() {
             <DesignContainer title={"Drag Lock Direction"} sourceLink={"https://motion.dev/tutorials/react-drag"}>
                 <DragLockDirection />
             </DesignContainer>
-            <DesignContainer title={"Rotating Text"} sourceLink={"https://www.reactbits.dev/text-animations/rotating-text"}>
+            <DesignContainer
+                title={"Rotating Text"}
+                sourceLink={"https://www.reactbits.dev/text-animations/rotating-text"}
+                designNotesLink={"https://docs.eridian.xyz/design-dev/rotating-text"}
+            >
                 <RotatingText />
             </DesignContainer>
             <Box h={"20px"} />

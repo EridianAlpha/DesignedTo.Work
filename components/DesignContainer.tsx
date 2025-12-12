@@ -6,7 +6,7 @@ import { useColorModeValue } from "./color-mode/ColorModeProvider"
 import { useEffect, useState } from "react"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faArrowUpRightFromSquare, faChevronRight } from "@fortawesome/free-solid-svg-icons"
+import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons"
 
 import { customConfig } from "../styles/theme"
 
@@ -14,11 +14,13 @@ export default function DesignContainer({
     theme,
     title,
     sourceLink,
+    designNotesLink,
     children = null,
 }: {
     theme?: "dark" | "light"
     title?: string
     sourceLink?: string
+    designNotesLink?: string
     children?: React.ReactNode | null
 }) {
     const boxShadow = useColorModeValue(
@@ -43,7 +45,7 @@ export default function DesignContainer({
 
     if (mounted) {
         return (
-            <Box position={"relative"} maxW={"95dvw"} w={"800px"} maxH={"400px"} h={"400px"}>
+            <Box position={"relative"} maxW={"95dvw"} w={"800px"} maxH={"400px"} h={"400px"} boxShadow={boxShadow} borderRadius={"16px"}>
                 <VStack
                     w={"100%"}
                     h={"100%"}
@@ -54,7 +56,6 @@ export default function DesignContainer({
                     justifyContent={"center"}
                     alignItems={"center"}
                     overflow={"hidden"}
-                    boxShadow={boxShadow}
                     position={"relative"}
                     {...(vStackBg ? { bg: vStackBg } : {})}
                 >
@@ -79,63 +80,82 @@ export default function DesignContainer({
                     pr={2}
                     zIndex={2}
                     cursor="default"
+                    boxShadow={boxShadow}
                 >
                     <Text whiteSpace={"nowrap"} textAlign={"start"} fontWeight={"bold"} w={"100%"} pl={3} pr={1}>
                         {title}
                     </Text>
                 </Box>
-                <Button
-                    position={"absolute"}
-                    bg={"blue.500"}
-                    w={"130px"}
-                    h={"30px"}
-                    bottom={"0px"}
-                    right={"0px"}
-                    transformOrigin={"center"}
-                    display={"flex"}
-                    alignItems={"center"}
-                    justifyContent={"center"}
-                    borderTopLeftRadius={"12px"}
-                    borderBottomRightRadius={"18px"}
-                    borderBottomLeftRadius={"0px"}
-                    pl={0}
-                    pr={2}
-                    transition={"transform 0.2s ease-in"}
-                    _hover={{ transform: "translateY(-2px)" }}
-                    zIndex={2}
-                >
-                    <Text whiteSpace={"nowrap"} textAlign={"center"} fontWeight={"bold"} color={pageBackground._light}>
-                        <FontAwesomeIcon icon={faChevronRight} size="sm" />
-                        Design notes
-                    </Text>
-                </Button>
-                <Link href={sourceLink ?? "#"} target="_blank" rel="noopener noreferrer">
-                    <Button
-                        position={"absolute"}
-                        bg={"blue.500"}
-                        w={"95px"}
-                        h={"30px"}
-                        bottom={"0px"}
-                        left={"0px"}
-                        transformOrigin={"center"}
-                        display={"flex"}
-                        alignItems={"center"}
-                        justifyContent={"center"}
-                        borderTopRightRadius={"12px"}
-                        borderBottomLeftRadius={"18px"}
-                        borderBottomRightRadius={"0px"}
-                        pl={2}
-                        pr={0}
-                        transition={"transform 0.2s ease-in"}
-                        _hover={{ transform: "translateY(-2px)" }}
-                        zIndex={2}
-                    >
-                        <Text whiteSpace={"nowrap"} textAlign={"center"} fontWeight={"bold"} color={pageBackground._light}>
-                            Source
-                            <FontAwesomeIcon icon={faArrowUpRightFromSquare} size="sm" />
-                        </Text>
-                    </Button>
-                </Link>
+                {designNotesLink && (
+                    <Link href={designNotesLink ?? "#"} target="_blank" rel="noopener noreferrer">
+                        <Button
+                            position={"absolute"}
+                            bg={"blue.500"}
+                            w={"130px"}
+                            h={"30px"}
+                            bottom={"0px"}
+                            right={"0px"}
+                            transformOrigin={"center"}
+                            display={"flex"}
+                            alignItems={"center"}
+                            justifyContent={"center"}
+                            borderTopLeftRadius={"12px"}
+                            borderBottomRightRadius={"18px"}
+                            borderBottomLeftRadius={"0px"}
+                            pl={0}
+                            pr={0}
+                            transition={"transform 0.2s ease-in"}
+                            _hover={{ transform: "translateY(-2px)" }}
+                            zIndex={2}
+                        >
+                            <Text
+                                whiteSpace={"nowrap"}
+                                textAlign={"center"}
+                                fontWeight={"bold"}
+                                color={pageBackground._light}
+                                textShadow="1px 2px 8px rgba(0,0,0,0.8)"
+                            >
+                                Design Notes
+                                <FontAwesomeIcon icon={faArrowUpRightFromSquare} size="sm" style={{ filter: "drop-shadow(2px 2px 4px black)" }} />
+                            </Text>
+                        </Button>
+                    </Link>
+                )}
+                {sourceLink && (
+                    <Link href={sourceLink ?? "#"} target="_blank" rel="noopener noreferrer">
+                        <Button
+                            position={"absolute"}
+                            bg={"blue.500"}
+                            w={"95px"}
+                            h={"30px"}
+                            bottom={"0px"}
+                            left={"0px"}
+                            transformOrigin={"center"}
+                            display={"flex"}
+                            alignItems={"center"}
+                            justifyContent={"center"}
+                            borderTopRightRadius={"12px"}
+                            borderBottomLeftRadius={"18px"}
+                            borderBottomRightRadius={"0px"}
+                            pl={2}
+                            pr={0}
+                            transition={"transform 0.2s ease-in"}
+                            _hover={{ transform: "translateY(-2px)" }}
+                            zIndex={2}
+                        >
+                            <Text
+                                whiteSpace={"nowrap"}
+                                textAlign={"center"}
+                                fontWeight={"bold"}
+                                color={pageBackground._light}
+                                textShadow="1px 2px 8px rgba(0,0,0,0.8)"
+                            >
+                                Source
+                                <FontAwesomeIcon icon={faArrowUpRightFromSquare} size="sm" style={{ filter: "drop-shadow(2px 2px 4px black)" }} />
+                            </Text>
+                        </Button>
+                    </Link>
+                )}
             </Box>
         )
     }
