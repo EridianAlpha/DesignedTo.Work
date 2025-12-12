@@ -1,12 +1,24 @@
 "use client"
 
-import { VStack, Box, Text } from "@chakra-ui/react"
+import { VStack, Box, Text, Button } from "@chakra-ui/react"
+import Link from "next/link"
 import { useColorModeValue } from "./color-mode/ColorModeProvider"
 import { useEffect, useState } from "react"
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faArrowUpRightFromSquare, faChevronRight } from "@fortawesome/free-solid-svg-icons"
+
 import { customConfig } from "../styles/theme"
 
-export default function DesignContainer({ theme, children = null }: { theme?: "dark" | "light"; children?: React.ReactNode | null }) {
+export default function DesignContainer({
+    theme,
+    sourceLink,
+    children = null,
+}: {
+    theme?: "dark" | "light"
+    sourceLink?: string
+    children?: React.ReactNode | null
+}) {
     const boxShadow = useColorModeValue(
         "4px 4px 6px -1px rgba(0, 0, 0, 0.2), 2px 2px 4px -1px rgba(0, 0, 0, 0.1)",
         "4px 4px 6px -1px rgba(59, 130, 246, 0.5), 2px 2px 4px -1px rgba(59, 130, 246, 0.5)",
@@ -29,27 +41,27 @@ export default function DesignContainer({ theme, children = null }: { theme?: "d
 
     if (mounted) {
         return (
-            <VStack
-                gap="8"
-                justifyContent={"center"}
-                alignItems={"center"}
-                border={"3px solid"}
-                borderColor={"blue.500"}
-                borderRadius={"24px"}
-                overflow={"hidden"}
-                maxW={"95dvw"}
-                w={"800px"}
-                maxH={"400px"}
-                h={"400px"}
-                boxShadow={boxShadow}
-                position={"relative"}
-                {...(vStackBg ? { bg: vStackBg } : {})}
-            >
-                {children ?? null}
-                <Box
+            <Box position={"relative"} maxW={"95dvw"} w={"800px"} maxH={"400px"} h={"400px"}>
+                <VStack
+                    w={"100%"}
+                    h={"100%"}
+                    gap="8"
+                    border={"3px solid"}
+                    borderColor={"blue.500"}
+                    borderRadius={"24px"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                    overflow={"hidden"}
+                    boxShadow={boxShadow}
+                    position={"relative"}
+                    {...(vStackBg ? { bg: vStackBg } : {})}
+                >
+                    {children ?? null}
+                </VStack>
+                <Button
                     position={"absolute"}
                     bg={"blue.500"}
-                    w={"60px"}
+                    w={"130px"}
                     h={"30px"}
                     bottom={"0px"}
                     right={"0px"}
@@ -58,13 +70,45 @@ export default function DesignContainer({ theme, children = null }: { theme?: "d
                     alignItems={"center"}
                     justifyContent={"center"}
                     borderTopLeftRadius={"12px"}
-                    borderBottomRightRadius={"16px"}
+                    borderBottomRightRadius={"30px"}
+                    borderBottomLeftRadius={"0px"}
+                    pl={0}
+                    pr={2}
+                    transition={"transform 0.2s ease-in"}
+                    _hover={{ transform: "translateY(-2px)" }}
                 >
-                    <Text whiteSpace={"nowrap"} textAlign={"center"} fontWeight={"bold"}>
-                        Docs
+                    <Text whiteSpace={"nowrap"} textAlign={"center"} fontWeight={"bold"} color={pageBackground._light}>
+                        <FontAwesomeIcon icon={faChevronRight} size="sm" />
+                        Design notes
                     </Text>
-                </Box>
-            </VStack>
+                </Button>
+                <Link href={sourceLink ?? "#"} target="_blank" rel="noopener noreferrer">
+                    <Button
+                        position={"absolute"}
+                        bg={"blue.500"}
+                        w={"95px"}
+                        h={"30px"}
+                        bottom={"0px"}
+                        left={"0px"}
+                        transformOrigin={"center"}
+                        display={"flex"}
+                        alignItems={"center"}
+                        justifyContent={"center"}
+                        borderTopRightRadius={"12px"}
+                        borderBottomLeftRadius={"30px"}
+                        borderBottomRightRadius={"0px"}
+                        pl={2}
+                        pr={0}
+                        transition={"transform 0.2s ease-in"}
+                        _hover={{ transform: "translateY(-2px)" }}
+                    >
+                        <Text whiteSpace={"nowrap"} textAlign={"center"} fontWeight={"bold"} color={pageBackground._light}>
+                            Source
+                            <FontAwesomeIcon icon={faArrowUpRightFromSquare} size="sm" />
+                        </Text>
+                    </Button>
+                </Link>
+            </Box>
         )
     }
     return null
