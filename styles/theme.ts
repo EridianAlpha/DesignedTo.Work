@@ -120,7 +120,7 @@ export const customConfig = defineConfig({
                     },
                 },
                 contentBackground: {
-                    value: { _light: "{colors.blue.200}", _dark: "{colors.blue.900}" },
+                    value: { _light: "{colors.blue.300}", _dark: "{colors.blue.900}" },
                 },
                 contentBackgroundHover: {
                     value: { _light: "{colors.blue.300}", _dark: "{colors.blue.800}" },

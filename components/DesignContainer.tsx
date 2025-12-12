@@ -50,7 +50,7 @@ export default function DesignContainer({
                     gap="8"
                     border={"3px solid"}
                     borderColor={"blue.500"}
-                    borderRadius={"24px"}
+                    borderRadius={"16px"}
                     justifyContent={"center"}
                     alignItems={"center"}
                     overflow={"hidden"}
@@ -62,7 +62,7 @@ export default function DesignContainer({
                 </VStack>
                 <Box
                     position={"absolute"}
-                    bg={"pageBackground"}
+                    bg={"contentBackground"}
                     h={"30px"}
                     top={"3px"}
                     left={"3px"}
@@ -70,7 +70,7 @@ export default function DesignContainer({
                     display={"flex"}
                     alignItems={"center"}
                     justifyContent={"center"}
-                    borderTopLeftRadius={"21px"}
+                    borderTopLeftRadius={"13px"}
                     borderBottomRightRadius={"12px"}
                     borderBottom={"3px solid"}
                     borderRight={"3px solid"}
@@ -80,7 +80,7 @@ export default function DesignContainer({
                     zIndex={2}
                     cursor="default"
                 >
-                    <Text whiteSpace={"nowrap"} textAlign={"start"} fontWeight={"bold"} w={"100%"} pl={4} pr={1}>
+                    <Text whiteSpace={"nowrap"} textAlign={"start"} fontWeight={"bold"} w={"100%"} pl={3} pr={1}>
                         {title}
                     </Text>
                 </Box>
@@ -96,7 +96,7 @@ export default function DesignContainer({
                     alignItems={"center"}
                     justifyContent={"center"}
                     borderTopLeftRadius={"12px"}
-                    borderBottomRightRadius={"30px"}
+                    borderBottomRightRadius={"18px"}
                     borderBottomLeftRadius={"0px"}
                     pl={0}
                     pr={2}
@@ -122,7 +122,7 @@ export default function DesignContainer({
                         alignItems={"center"}
                         justifyContent={"center"}
                         borderTopRightRadius={"12px"}
-                        borderBottomLeftRadius={"30px"}
+                        borderBottomLeftRadius={"18px"}
                         borderBottomRightRadius={"0px"}
                         pl={2}
                         pr={0}
