@@ -11,7 +11,7 @@ export default function PageContainer() {
         <VStack gap="50px" justifyContent={"center"} alignItems={"center"} pt={20}>
             <RotatingText />
             <Box h={"30px"} />
-            <DesignContainer>
+            <DesignContainer theme="dark">
                 <SparkleButton />
             </DesignContainer>
             <DesignContainer>
