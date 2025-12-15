@@ -3,27 +3,16 @@
 import { Box, VStack } from "@chakra-ui/react"
 import DesignContainer from "./DesignContainer"
 import RotatingText from "./designs/rotating-text/RotatingText"
-import DragLockDirection from "./designs/drag-lock-direction/DragLockDirection"
-import SparkleButton from "./designs/sparkle-button/SparkleButton"
+import { designsBySlug } from "./designs"
 
 export default function PageContainer() {
     return (
         <VStack gap="50px" justifyContent={"center"} alignItems={"center"} pt={20}>
             <RotatingText />
             <Box h={"0px"} />
-            <DesignContainer title={"Sparkle Button"} theme="dark" sourceLink={"https://codepen.io/jh3y/pen/LYJMPBL"}>
-                <SparkleButton />
-            </DesignContainer>
-            <DesignContainer title={"Drag Lock Direction"} sourceLink={"https://motion.dev/tutorials/react-drag"}>
-                <DragLockDirection />
-            </DesignContainer>
-            <DesignContainer
-                title={"Rotating Text"}
-                sourceLink={"https://www.reactbits.dev/text-animations/rotating-text"}
-                designNotesLink={"https://docs.eridian.xyz/design-dev/rotating-text"}
-            >
-                <RotatingText />
-            </DesignContainer>
+            {Object.values(designsBySlug).map((designEntry) => (
+                <DesignContainer key={designEntry.config.slug} design={designEntry} />
+            ))}
             <Box h={"20px"} />
         </VStack>
     )

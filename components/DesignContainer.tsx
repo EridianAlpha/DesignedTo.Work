@@ -9,20 +9,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons"
 
 import { customConfig } from "../styles/theme"
+import type { DesignComponent } from "../interfaces/types"
+import { getDesignConfig, type DesignEntry } from "./designs"
+import type React from "react"
 
-export default function DesignContainer({
-    theme,
-    title,
-    sourceLink,
-    designNotesLink,
-    children = null,
-}: {
-    theme?: "dark" | "light"
-    title?: string
-    sourceLink?: string
-    designNotesLink?: string
-    children?: React.ReactNode | null
-}) {
+export default function DesignContainer({ design }: { design: DesignComponent | DesignEntry | React.ComponentType }) {
     const boxShadow = useColorModeValue(
         "4px 4px 6px -1px rgba(0, 0, 0, 0.2), 2px 2px 4px -1px rgba(0, 0, 0, 0.1)",
         "4px 4px 6px -1px rgba(59, 130, 246, 0.5), 2px 2px 4px -1px rgba(59, 130, 246, 0.5)",
@@ -37,6 +28,19 @@ export default function DesignContainer({
         _light: string
         _dark: string
     }
+
+    // Handle both DesignEntry and component
+    const designEntry = "component" in design && "config" in design ? design : undefined
+    const component = designEntry ? designEntry.component : (design as React.ComponentType)
+    const config = designEntry ? designEntry.config : getDesignConfig(design as React.ComponentType)
+
+    if (!config) {
+        console.error("DesignContainer: No config found for design", design)
+        return null
+    }
+
+    const { theme, title, sourceLink, designNotesLink } = config
+    const Design = component
 
     // Determine the background color based on the theme prop
     let vStackBg: string | undefined = undefined
@@ -59,7 +63,7 @@ export default function DesignContainer({
                     position={"relative"}
                     {...(vStackBg ? { bg: vStackBg } : {})}
                 >
-                    {children ?? null}
+                    <Design />
                 </VStack>
                 <Box
                     position={"absolute"}
