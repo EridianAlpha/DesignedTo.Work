@@ -50,10 +50,10 @@ function GsapListItem({ text }: { text: string }) {
 export default function GsapListHover() {
     return (
         <div style={container}>
-            <GsapListItem text={"Home"} />
-            <GsapListItem text={"Home"} />
-            <GsapListItem text={"Home"} />
-            <GsapListItem text={"Home"} />
+            <GsapListItem text={"The"} />
+            <GsapListItem text={"Future"} />
+            <GsapListItem text={"Looks"} />
+            <GsapListItem text={"Good"} />
         </div>
     )
 }
@@ -62,9 +62,8 @@ export default function GsapListHover() {
 const container: React.CSSProperties = {
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
+    alignItems: "start",
     justifyContent: "center",
-    width: "100%",
     height: "100%",
 }
 
