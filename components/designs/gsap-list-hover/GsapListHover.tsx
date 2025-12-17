@@ -61,24 +61,25 @@ function GsapListItem({ text, onTimelineReady, onHoverChange }: GsapListItemProp
 
 export default function GsapListHover() {
     const timelinesRef = useRef<gsap.core.Timeline[]>([])
-    const autoplayTimeoutRef = useRef<gsap.core.Tween | null>(null)
-    const hoverCountRef = useRef(0)
+    const autoplayTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+    const reverseTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+    const isHoveringRef = useRef(false)
     const currentIndexRef = useRef(-1)
 
     const scheduleNextCycle = () => {
         // Don't run autoplay while any item is hovered
-        if (hoverCountRef.current > 0) return
+        if (isHoveringRef.current) return
 
         const timelines = timelinesRef.current
         if (!timelines.length) return
 
         // Time before starting the next item's animation (controls overlap)
-        const nextStartDelay = 0.3
+        const nextStartDelay = 0
         // How long the item should stay in its end state before reversing
         const holdAtEndDelay = 0.3
 
-        autoplayTimeoutRef.current = gsap.delayedCall(nextStartDelay, () => {
-            if (hoverCountRef.current > 0) return
+        autoplayTimeoutRef.current = setTimeout(() => {
+            if (isHoveringRef.current) return
 
             const activeTimelines = timelinesRef.current
             if (!activeTimelines.length) return
@@ -87,41 +88,44 @@ export default function GsapListHover() {
             const currentIndex = currentIndexRef.current
             const tl = activeTimelines[currentIndex]
 
-            // Play the item, then gently reverse it back, then move to the next
+            // Don't reset other timelines - let them complete naturally for smooth overlap
+            // Just play the current item
             tl.play()
 
             // Check if this is the last item in the sequence (before it wraps around)
             const isLastItem = currentIndex === activeTimelines.length - 1
 
             // Keep this item in its "active" end state a bit longer, then reverse it
-            gsap.delayedCall(holdAtEndDelay, () => {
-                if (hoverCountRef.current > 0) return
+            reverseTimeoutRef.current = setTimeout(() => {
+                if (isHoveringRef.current) return
                 tl.reverse()
 
                 // Only schedule next cycle here for the last item (with delay)
-                // Use the captured currentIndex to ensure we're checking the same index
                 if (currentIndex === activeTimelines.length - 1) {
-                    gsap.delayedCall(2, () => {
-                        if (hoverCountRef.current > 0) return
+                    autoplayTimeoutRef.current = setTimeout(() => {
+                        if (isHoveringRef.current) return
                         scheduleNextCycle()
-                    })
+                    }, 2000)
+                } else {
+                    // For non-last items, schedule immediately
+                    scheduleNextCycle()
                 }
-            })
-
-            // For non-last items, schedule immediately (original behavior)
-            // This maintains the original timing where scheduleNextCycle is called right after scheduling reverse
-            if (!isLastItem) {
-                scheduleNextCycle()
-            }
-        })
+            }, holdAtEndDelay * 1000)
+        }, nextStartDelay * 1000)
     }
 
     useEffect(() => {
         scheduleNextCycle()
 
         return () => {
-            autoplayTimeoutRef.current?.kill()
-            autoplayTimeoutRef.current = null
+            if (autoplayTimeoutRef.current) {
+                clearTimeout(autoplayTimeoutRef.current)
+                autoplayTimeoutRef.current = null
+            }
+            if (reverseTimeoutRef.current) {
+                clearTimeout(reverseTimeoutRef.current)
+                reverseTimeoutRef.current = null
+            }
         }
     }, [])
 
@@ -130,11 +134,20 @@ export default function GsapListHover() {
     }
 
     const handleHoverChange = (isHovering: boolean, hoveredTimeline: gsap.core.Timeline | null) => {
-        if (isHovering) {
-            hoverCountRef.current += 1
+        isHoveringRef.current = isHovering
 
-            // Gently send all other timelines back to the start by reversing them,
-            // instead of snapping them back.
+        if (isHovering) {
+            // Clear any pending automated animations
+            if (autoplayTimeoutRef.current) {
+                clearTimeout(autoplayTimeoutRef.current)
+                autoplayTimeoutRef.current = null
+            }
+            if (reverseTimeoutRef.current) {
+                clearTimeout(reverseTimeoutRef.current)
+                reverseTimeoutRef.current = null
+            }
+
+            // Gently send all other timelines back to the start by reversing them
             if (hoveredTimeline) {
                 timelinesRef.current.forEach((tl) => {
                     if (tl !== hoveredTimeline) {
@@ -142,21 +155,26 @@ export default function GsapListHover() {
                     }
                 })
             }
+        } else {
+            // Let the hovered item's own mouseleave handler reverse it smoothly.
+            // After it finishes reversing, reset all timelines to ensure clean state before restarting autoplay
+            currentIndexRef.current = -1
 
-            if (hoverCountRef.current === 1) {
-                autoplayTimeoutRef.current?.kill()
+            if (autoplayTimeoutRef.current) {
+                clearTimeout(autoplayTimeoutRef.current)
                 autoplayTimeoutRef.current = null
             }
-        } else {
-            hoverCountRef.current = Math.max(hoverCountRef.current - 1, 0)
-            if (hoverCountRef.current === 0 && !autoplayTimeoutRef.current) {
-                // Restart autoplay from the beginning after a short delay
-                currentIndexRef.current = -1
-                autoplayTimeoutRef.current = gsap.delayedCall(1, () => {
-                    autoplayTimeoutRef.current = null
+
+            // Wait for the reverse animation to complete, then reset everything and restart autoplay
+            autoplayTimeoutRef.current = setTimeout(() => {
+                if (!isHoveringRef.current) {
+                    // Reset all timelines to base state before restarting autoplay
+                    timelinesRef.current.forEach((tl) => {
+                        tl.pause(0)
+                    })
                     scheduleNextCycle()
-                })
-            }
+                }
+            }, 1000)
         }
     }
 
