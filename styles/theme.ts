@@ -109,8 +109,8 @@ export const customConfig = defineConfig({
                 // Background colors
                 pageBackground: {
                     value: {
-                        _light: "#f7f7ff",
-                        _dark: "#050016",
+                        _light: "white",
+                        _dark: "#000000",
                     },
                 },
                 pageBackgroundMuted: {
