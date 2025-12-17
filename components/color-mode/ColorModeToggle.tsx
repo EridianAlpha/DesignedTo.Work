@@ -1,6 +1,6 @@
 "use client"
 
-import { Box, Switch } from "@chakra-ui/react"
+import { Box, ClientOnly, Switch } from "@chakra-ui/react"
 import { useTheme } from "next-themes"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -20,23 +20,25 @@ export function ColorModeToggle() {
     }
 
     return (
-        <Switch.Root size="lg" onChange={toggleColorMode} defaultChecked={theme === "light"} transform="scale(1.2)">
-            <Switch.HiddenInput />
-            <Switch.Control bg={"blue.500"} _hover={{ bg: "blue.600" }}>
-                <Switch.Thumb bg={"pageBackground"} boxShadow={"none"}>
-                    <Switch.ThumbIndicator
-                        fallback={
-                            <Box color={pageBackground._light} boxSize={"100%"} display="flex" alignItems="center" justifyContent="center">
-                                <FontAwesomeIcon icon={faSun} color={pageBackground._light} />
+        <ClientOnly>
+            <Switch.Root size="lg" onChange={toggleColorMode} defaultChecked={theme === "light"} transform="scale(1.2)">
+                <Switch.HiddenInput />
+                <Switch.Control bg={"blue.500"} _hover={{ bg: "blue.600" }}>
+                    <Switch.Thumb bg={"pageBackground"} boxShadow={"none"}>
+                        <Switch.ThumbIndicator
+                            fallback={
+                                <Box color={pageBackground._light} boxSize={"100%"} display="flex" alignItems="center" justifyContent="center">
+                                    <FontAwesomeIcon icon={faSun} color={pageBackground._light} />
+                                </Box>
+                            }
+                        >
+                            <Box color={pageBackground._dark} boxSize={"100%"} display="flex" alignItems="center" justifyContent="center">
+                                <FontAwesomeIcon icon={faMoon} color={pageBackground._dark} />
                             </Box>
-                        }
-                    >
-                        <Box color={pageBackground._dark} boxSize={"100%"} display="flex" alignItems="center" justifyContent="center">
-                            <FontAwesomeIcon icon={faMoon} color={pageBackground._dark} />
-                        </Box>
-                    </Switch.ThumbIndicator>
-                </Switch.Thumb>
-            </Switch.Control>
-        </Switch.Root>
+                        </Switch.ThumbIndicator>
+                    </Switch.Thumb>
+                </Switch.Control>
+            </Switch.Root>
+        </ClientOnly>
     )
 }
