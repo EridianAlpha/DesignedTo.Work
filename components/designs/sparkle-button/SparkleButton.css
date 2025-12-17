@@ -188,6 +188,27 @@
     --play-state: running;
 }
 
+/* Autoplay "hovered" state when JS adds .is-auto-active on the container */
+.sparkle-button.is-auto-active button {
+    /* Mirror the hover/focus-visible state using the same custom properties */
+    --active: 1;
+    --play-state: running;
+}
+
+.sparkle-button.is-auto-active button .sparkle path {
+    animation-name: bounce;
+}
+
+.sparkle-button.is-auto-active button ~ :is(.bodydrop, .particle-pen) {
+    --active: 1;
+    --play-state: running;
+}
+
+.sparkle-button.is-auto-active .particle-pen {
+    opacity: 1;
+    --play-state: running;
+}
+
 .sparkle-button .particle-pen {
     position: absolute;
     width: 200%;

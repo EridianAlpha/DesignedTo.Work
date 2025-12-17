@@ -17,6 +17,10 @@ const particlePath =
 
 export default function SparkleButton({ text = "Magic!", onClick }: SparkleButtonProps) {
     const particleRefs = useRef<(SVGSVGElement | null)[]>([])
+    const containerRef = useRef<HTMLDivElement | null>(null)
+    const isHoveredRef = useRef(false)
+    const autoTimerRef = useRef<number | null>(null)
+    const autoActiveRef = useRef(false)
 
     const random = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1) + min)
 
@@ -44,8 +48,58 @@ export default function SparkleButton({ text = "Magic!", onClick }: SparkleButto
         return () => clearTimeout(timeoutId)
     }, [])
 
+    // Autoplay: when not hovered, gently alternate between "hovered" and "not hovered"
+    // visual states on a loop.
+    useEffect(() => {
+        const HOLD_MS = 2000 // time to hold each state
+
+        const setAutoActive = (active: boolean) => {
+            autoActiveRef.current = active
+            const el = containerRef.current
+            if (!el) return
+            if (active) {
+                el.classList.add("is-auto-active")
+            } else {
+                el.classList.remove("is-auto-active")
+            }
+        }
+
+        const scheduleNext = () => {
+            if (autoTimerRef.current !== null) {
+                clearTimeout(autoTimerRef.current)
+            }
+
+            autoTimerRef.current = window.setTimeout(() => {
+                // Don't change state while the user is actually hovering
+                if (isHoveredRef.current) {
+                    scheduleNext()
+                    return
+                }
+
+                setAutoActive(!autoActiveRef.current)
+                scheduleNext()
+            }, HOLD_MS)
+        }
+
+        scheduleNext()
+
+        return () => {
+            if (autoTimerRef.current !== null) {
+                clearTimeout(autoTimerRef.current)
+            }
+        }
+    }, [])
+
+    const handleMouseEnter = () => {
+        isHoveredRef.current = true
+    }
+
+    const handleMouseLeave = () => {
+        isHoveredRef.current = false
+    }
+
     return (
-        <div className="sparkle-button">
+        <div className="sparkle-button" ref={containerRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <button onClick={onClick}>
                 <span className="spark"></span>
                 <span className="backdrop"></span>
