@@ -84,18 +84,35 @@ export default function GsapListHover() {
             if (!activeTimelines.length) return
 
             currentIndexRef.current = (currentIndexRef.current + 1) % activeTimelines.length
-            const tl = activeTimelines[currentIndexRef.current]
+            const currentIndex = currentIndexRef.current
+            const tl = activeTimelines[currentIndex]
 
             // Play the item, then gently reverse it back, then move to the next
             tl.play()
+
+            // Check if this is the last item in the sequence (before it wraps around)
+            const isLastItem = currentIndex === activeTimelines.length - 1
 
             // Keep this item in its "active" end state a bit longer, then reverse it
             gsap.delayedCall(holdAtEndDelay, () => {
                 if (hoverCountRef.current > 0) return
                 tl.reverse()
+
+                // Only schedule next cycle here for the last item (with delay)
+                // Use the captured currentIndex to ensure we're checking the same index
+                if (currentIndex === activeTimelines.length - 1) {
+                    gsap.delayedCall(2, () => {
+                        if (hoverCountRef.current > 0) return
+                        scheduleNextCycle()
+                    })
+                }
             })
 
-            scheduleNextCycle()
+            // For non-last items, schedule immediately (original behavior)
+            // This maintains the original timing where scheduleNextCycle is called right after scheduling reverse
+            if (!isLastItem) {
+                scheduleNextCycle()
+            }
         })
     }
 
