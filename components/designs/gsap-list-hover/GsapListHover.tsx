@@ -73,9 +73,9 @@ export default function GsapListHover() {
         if (!timelines.length) return
 
         // Time before starting the next item's animation (controls overlap)
-        const nextStartDelay = 0.6
+        const nextStartDelay = 0.3
         // How long the item should stay in its end state before reversing
-        const holdAtEndDelay = 0.4
+        const holdAtEndDelay = 0.3
 
         autoplayTimeoutRef.current = gsap.delayedCall(nextStartDelay, () => {
             if (hoverCountRef.current > 0) return
