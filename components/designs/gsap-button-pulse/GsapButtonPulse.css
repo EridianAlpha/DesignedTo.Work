@@ -1,0 +1,20 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    height: 100%;
+}
+
+.button {
+    background-color: #029e03;
+    color: #fff;
+    font-size: 3rem;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 24px;
+    cursor: pointer;
+    will-change: transform;
+    /* Start small so that increasing the size doesn't cause quality to degrade */
+    transform: scale(0.5);
+}

@@ -1,8 +1,8 @@
 import type { DesignComponent, DesignConfig } from "../../interfaces/types"
 import type React from "react"
 
-import Template from "./template/Template"
-import { templateConfig } from "./template/config"
+import GsapButtonPulse from "./gsap-button-pulse/GsapButtonPulse"
+import { gsapButtonPulseConfig } from "./gsap-button-pulse/config"
 import GsapListHover from "./gsap-list-hover/GsapListHover"
 import { gsapListHoverConfig } from "./gsap-list-hover/config"
 import SparkleButton from "./sparkle-button/SparkleButton"
@@ -11,6 +11,8 @@ import DragLockDirection from "./drag-lock-direction/DragLockDirection"
 import { dragLockDirectionConfig } from "./drag-lock-direction/config"
 import RotatingText from "./rotating-text/RotatingText"
 import { rotatingTextConfig } from "./rotating-text/config"
+import Template from "./template/Template"
+import { templateConfig } from "./template/config"
 
 export interface DesignEntry {
     component: React.ComponentType
@@ -19,7 +21,10 @@ export interface DesignEntry {
 
 // Configs are imported from separate config.ts files (not client components)
 const designEntries: DesignEntry[] = [
-    { component: Template, config: templateConfig },
+    {
+        component: GsapButtonPulse,
+        config: gsapButtonPulseConfig,
+    },
     {
         component: GsapListHover,
         config: gsapListHoverConfig,
@@ -36,6 +41,7 @@ const designEntries: DesignEntry[] = [
         component: RotatingText,
         config: rotatingTextConfig,
     },
+    { component: Template, config: templateConfig },
 ]
 
 export const designs: DesignComponent[] = designEntries.map((entry) => {
