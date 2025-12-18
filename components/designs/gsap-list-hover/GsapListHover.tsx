@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react"
 import { gsap } from "gsap"
+import { useGSDevTools } from "../../hooks/useGSDevTools"
 
 interface GsapListItemProps {
     text: string

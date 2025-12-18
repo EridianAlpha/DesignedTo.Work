@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef } from "react"
 import { gsap } from "gsap"
+import { useGSDevTools } from "../../hooks/useGSDevTools"
 import "./GsapButtonPulse.css"
 
 export default function GsapButtonPulse() {
@@ -11,23 +12,25 @@ export default function GsapButtonPulse() {
     const isHoveredRef = useRef(false)
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
+    // Attach GSDevTools in development
+    useGSDevTools(pulseTweenRef, "gsap-button-pulse")
+
     // Global auto-pulse timer that other handlers can reset
     const resetAutoPulseTimer = useCallback(() => {
         // Clear any existing interval
-        if (intervalRef.current) {
-            clearInterval(intervalRef.current)
-        }
-
-        // Start a new interval that periodically triggers a programmatic pulse
-        intervalRef.current = setInterval(() => {
-            if (!isHoveredRef.current) {
-                if (!pulseTweenRef.current?.isActive()) {
-                    handleMouseEnter()
-                } else {
-                    handleMouseLeave()
-                }
-            }
-        }, 3700)
+        // if (intervalRef.current) {
+        //     clearInterval(intervalRef.current)
+        // }
+        // // Start a new interval that periodically triggers a programmatic pulse
+        // intervalRef.current = setInterval(() => {
+        //     if (!isHoveredRef.current) {
+        //         if (!pulseTweenRef.current?.isActive()) {
+        //             handleMouseEnter()
+        //         } else {
+        //             handleMouseLeave()
+        //         }
+        //     }
+        // }, 3700)
     }, [])
 
     useEffect(() => {
@@ -35,6 +38,7 @@ export default function GsapButtonPulse() {
 
         // Create the looping pulse tween once and keep a ref to it
         pulseTweenRef.current = gsap.to(buttonRef.current, {
+            id: "gsap-button-pulse",
             scale: 1,
             y: -30,
             repeat: -1,
