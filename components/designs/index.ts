@@ -1,6 +1,8 @@
 import type { DesignComponent, DesignConfig } from "../../interfaces/types"
 import type React from "react"
 
+import Template from "./template/Template"
+import { templateConfig } from "./template/config"
 import GsapListHover from "./gsap-list-hover/GsapListHover"
 import { gsapListHoverConfig } from "./gsap-list-hover/config"
 import SparkleButton from "./sparkle-button/SparkleButton"
@@ -17,6 +19,7 @@ export interface DesignEntry {
 
 // Configs are imported from separate config.ts files (not client components)
 const designEntries: DesignEntry[] = [
+    { component: Template, config: templateConfig },
     {
         component: GsapListHover,
         config: gsapListHoverConfig,
