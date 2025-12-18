@@ -18,19 +18,19 @@ export default function GsapButtonPulse() {
     // Global auto-pulse timer that other handlers can reset
     const resetAutoPulseTimer = useCallback(() => {
         // Clear any existing interval
-        // if (intervalRef.current) {
-        //     clearInterval(intervalRef.current)
-        // }
-        // // Start a new interval that periodically triggers a programmatic pulse
-        // intervalRef.current = setInterval(() => {
-        //     if (!isHoveredRef.current) {
-        //         if (!pulseTweenRef.current?.isActive()) {
-        //             handleMouseEnter()
-        //         } else {
-        //             handleMouseLeave()
-        //         }
-        //     }
-        // }, 3700)
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current)
+        }
+        // Start a new interval that periodically triggers a programmatic pulse
+        intervalRef.current = setInterval(() => {
+            if (!isHoveredRef.current) {
+                if (!pulseTweenRef.current?.isActive()) {
+                    handleMouseEnter()
+                } else {
+                    handleMouseLeave()
+                }
+            }
+        }, 3700)
     }, [])
 
     useEffect(() => {
