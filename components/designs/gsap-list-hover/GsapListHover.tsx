@@ -62,10 +62,14 @@ function GsapListItem({ text, onTimelineReady, onHoverChange }: GsapListItemProp
 
 export default function GsapListHover() {
     const timelinesRef = useRef<gsap.core.Timeline[]>([])
+    const firstTimelineRef = useRef<gsap.core.Timeline | null>(null)
     const autoplayTimeoutRef = useRef<NodeJS.Timeout | null>(null)
     const reverseTimeoutRef = useRef<NodeJS.Timeout | null>(null)
     const isHoveringRef = useRef(false)
     const currentIndexRef = useRef(-1)
+
+    // Attach GSDevTools to the first timeline in development
+    useGSDevTools(firstTimelineRef, "gsap-list-hover")
 
     const scheduleNextCycle = () => {
         // Don't run autoplay while any item is hovered
@@ -132,6 +136,10 @@ export default function GsapListHover() {
 
     const handleTimelineReady = (timeline: gsap.core.Timeline) => {
         timelinesRef.current.push(timeline)
+        // Set the first timeline for dev tools
+        if (!firstTimelineRef.current) {
+            firstTimelineRef.current = timeline
+        }
     }
 
     const handleHoverChange = (isHovering: boolean, hoveredTimeline: gsap.core.Timeline | null) => {
