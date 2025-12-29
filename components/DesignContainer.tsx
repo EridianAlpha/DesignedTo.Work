@@ -6,7 +6,8 @@ import { useColorModeValue } from "./color-mode/ColorModeProvider"
 import { useEffect, useState } from "react"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faArrowUpRightFromSquare, faCopy, faCheckCircle } from "@fortawesome/free-solid-svg-icons"
+import { faArrowUpRightFromSquare, faCopy, faCheckCircle, faUpRightAndDownLeftFromCenter } from "@fortawesome/free-solid-svg-icons"
+import { usePathname } from "next/navigation"
 
 import { customConfig } from "../styles/theme"
 import type { DesignComponent } from "../interfaces/types"
@@ -48,10 +49,13 @@ export default function DesignContainer({ design }: { design: DesignComponent | 
     else if (theme === "light") vStackBg = pageBackground._light
 
     const [linkCopied, setLinkCopied] = useState(false)
+    const pathname = usePathname()
+    const isRootPage = pathname === "/"
+    const designUrl = `/design/${slug}`
 
     const handleCopyLink = async () => {
         const baseUrl = typeof window !== "undefined" ? window.location.origin : ""
-        const url = `${baseUrl}/design/${slug}`
+        const url = `${baseUrl}${designUrl}`
         try {
             await navigator.clipboard.writeText(url)
             setLinkCopied(true)
@@ -59,6 +63,10 @@ export default function DesignContainer({ design }: { design: DesignComponent | 
         } catch (err) {
             console.error("Failed to copy link:", err)
         }
+    }
+
+    const handleOpenLink = () => {
+        window.open(designUrl, "_blank", "noopener,noreferrer")
     }
 
     if (mounted) {
@@ -119,26 +127,32 @@ export default function DesignContainer({ design }: { design: DesignComponent | 
                     borderBottom={"3px solid"}
                     borderLeft={"3px solid"}
                     borderColor={"blue.500"}
-                    pl={2}
+                    pl={"6px"}
                     pr={2}
-                    pt={"3px"}
+                    pt={"4px"}
                     zIndex={2}
                     cursor="pointer"
                     boxShadow={boxShadow}
-                    onClick={handleCopyLink}
+                    onClick={isRootPage ? handleOpenLink : handleCopyLink}
                     transition={"transform 0.2s ease-in"}
                     _hover={{ transform: "translateY(2px)" }}
                 >
                     <Text
-                                whiteSpace={"nowrap"}
-                                textAlign={"center"}
-                                fontWeight={"bold"}
-                                color={pageBackground._light}
-                                textShadow="1px 2px 8px rgba(0,0,0,0.8)"
-                                minW={"20px"}
-                            >
-                                {linkCopied ? <FontAwesomeIcon icon={faCheckCircle} size="sm" style={{ filter: "drop-shadow(2px 2px 4px black)" }} />: <FontAwesomeIcon icon={faCopy} size="sm" style={{ filter: "drop-shadow(2px 2px 4px black)" }} />}
-                            </Text>
+                        whiteSpace={"nowrap"}
+                        textAlign={"center"}
+                        fontWeight={"bold"}
+                        color={pageBackground._light}
+                        textShadow="1px 2px 8px rgba(0,0,0,0.8)"
+                        minW={"15px"}
+                    >
+                        {isRootPage ? (
+                            <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} size="sm" style={{ filter: "drop-shadow(2px 2px 4px black)" }} />
+                        ) : linkCopied ? (
+                            <FontAwesomeIcon icon={faCheckCircle} size="sm" style={{ filter: "drop-shadow(2px 2px 4px black)" }} />
+                        ) : (
+                            <FontAwesomeIcon icon={faCopy} size="sm" style={{ filter: "drop-shadow(2px 2px 4px black)" }} />
+                        )}
+                    </Text>
                 </Box>
                 {designNotesLink && (
                     <Link href={designNotesLink ?? "#"} target="_blank" rel="noopener noreferrer">
