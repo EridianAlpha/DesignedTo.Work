@@ -7,7 +7,7 @@ import { useEffect, useState } from "react"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowUpRightFromSquare, faCopy, faCheckCircle, faUpRightAndDownLeftFromCenter } from "@fortawesome/free-solid-svg-icons"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 
 import { customConfig } from "../styles/theme"
 import type { DesignComponent } from "../interfaces/types"
@@ -50,6 +50,7 @@ export default function DesignContainer({ design }: { design: DesignComponent | 
 
     const [linkCopied, setLinkCopied] = useState(false)
     const pathname = usePathname()
+    const router = useRouter()
     const isRootPage = pathname === "/"
     const designUrl = `/design/${slug}`
 
@@ -66,7 +67,7 @@ export default function DesignContainer({ design }: { design: DesignComponent | 
     }
 
     const handleOpenLink = () => {
-        window.open(designUrl, "_blank", "noopener,noreferrer")
+        router.push(designUrl)
     }
 
     if (mounted) {
